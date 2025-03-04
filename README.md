@@ -71,7 +71,7 @@ To load in our text file we use the command `read.csv()` and to load our R speci
 
 ``` r
 ufo <- read.csv("./Rticulate-main/ufo.csv")
-load("./Rticulate-main/census.RData)
+load("./Rticulate-main/census.RData")
 ```
 
 Now there is one more little thing to do to ensure our census data is in the right format to create maps. R is object based and there are different types of objects R can work with. The most common is the dataframe (that is what ufo and census are both right now). We want to turn our census object into a special object called a *simple features* or *sf* object because that allows us to treat this as a map. This is why we loaded the *sf* library and we do this using the following command.
@@ -242,18 +242,19 @@ We will start with our UFO data and join our bridge data and then join our censu
   core <- ufo.us %>%
     mutate(Abbr = state) %>%
     left_join(., bridge, by="Abbr") %>%
-    left_join(., census, by=GEOID)
+    left_join(., census, by="GEOID")
 ```
 
 Opps! We get an error, what happened?
 
-The problem is that we do not have a column of data called "Abbr" in the UFO, it is called something else, state. This is an easy fix using our green ooze command, `mutate()` and create what we need in the ufo.us dataframe. The last line in the code removes some cases where we had data from things outside the U.S. when we limited our data by latitude and longitude.
+The problem is that we do not have a column of data called "Abbr" in the UFO, it is called something else, state. This is an easy fix using our green ooze command, `mutate()` and create what we need in the ufo.us dataframe. The last line in the code removes some cases where we had data from things outside the U.S. when we limited our data by latitude and longitude. A second problem is that we have incompatible data types in our GEOID variable
 
 ``` r
   core <- ufo.us %>%
     mutate(Abbr = state) %>%
     left_join(., bridge, by="Abbr") %>%
-    left_join(., census, by=GEOID) %>%
+    mutate(GEOID = str_pad(as.character(GEOID), side = "left", width = 2,               pad = "0")) %>%
+    left_join(., census, by="GEOID") %>%
     filter(!is.na(State))
 ```
 
@@ -272,15 +273,15 @@ Use `summary()` again and we see we have the scales closer now. We want our data
 ``` r
 mutate(spp_1990 = YR1990/pop_1990,
        spp_2010 = YR2010/pop_2010,
-       delta_spp = ((spp_2010 - spp_1990)/spp_1990) %>%
-filter(GDOID != "15") %>%
+       delta_spp = (spp_2010 - spp_1990)/spp_1990) %>%
+filter(GEOID != "15") %>%
 st_as_sf()
 ```
 
 Now, finally, we want to see what we have. While there are lots of ways to display data, we are going to use maps. The last part of the *tidyverse* package we will use is *ggplot* which is a power tool to customizing visualizations. The code for the first map is
 
 ``` r
-  ggplot(core2) +
+  ggplot(core) +
     geom_sf(aes(fill = spp_1990)) +
     scale_fill_gradient(low = "#ADD8E6", high = "#00094B", na.value="white" ) +
     labs(title = "UFO Sightings per 1 Million Persons in 1990") +
@@ -294,13 +295,13 @@ Next we define the gradient to be use so the low color is a light blue and the h
 We can create similar maps for 2010 and for the percentage change
 
 ``` r
-  ggplot(core2) +
+  ggplot(core) +
     geom_sf(aes(fill = spp_2010)) +
     scale_fill_gradient(low = "#ADD8E6", high = "#00094B", na.value="white" ) +
     labs(title = "UFO Sightings per 1 Million Persons in 2010") +
     theme_bw()
   
-  ggplot(core2) +
+  ggplot(core) +
     geom_sf(aes(fill = delta_spp)) +
     scale_fill_gradient(low = "#ADD8E6", high = "#00094B", na.value="white" ) +
     labs(title = "Percentage Change in UFO sightings per 1 Million Person between 1990 and 2010") +
@@ -316,6 +317,4 @@ What we have focused on is the role and act of getting and cleaning up data to t
 - Double check any data for errors and coding mistakes.
 - Do all of your cleaning in code so what you have done is transparent.
 
-A final, and most important comment, however, is to use the larger programing community for help. Whenever you run into an error or wonder how to do something, just search in Google and you likely find an article in one of the several coding communities with the answer to your problem.
-
-Oh, and you might want to avoid Kansas, Kentucky, and North Carolina because the aliens appear to be really interested in those areas!
+A final, and most important comment, however, is to use the larger programing community for help. Whenever you run into an error or wonder how to do something, just search in Google and you likely find an article in one of the several coding
