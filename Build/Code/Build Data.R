@@ -1,4 +1,4 @@
-#Initital Data Setup for the R-ticulate Data for Tech Taco
+#Initial Data Setup for the R-ticulate Data for Tech Taco
 #Created by: Jeremy R. Groves
 #Date: February 26, 2025
 
