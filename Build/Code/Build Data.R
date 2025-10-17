@@ -10,10 +10,10 @@ library(ipumsr)
 
 #Get Geography Data
 
-acs <- get_acs(geography = "state",	#defines geography level of data 
-               variables = "B01001A_001",	    #specifics the data we want 
-               year = 2020,	         #denotes the year
-               geometry = TRUE)	     #downloads the TIGER shape file data  
+#acs <- get_acs(geography = "state",	#defines geography level of data 
+#               variables = "B01001A_001",	    #specifics the data we want 
+#               year = 2020,	         #denotes the year
+#               geometry = TRUE)	     #downloads the TIGER shape file data  
 
 #Get Population Data from IPUMS
 
@@ -33,10 +33,11 @@ acs <- get_acs(geography = "state",	#defines geography level of data
     rm(ts, data_ext, filepath)
     
 #Clean and merge census/impus data
+    load("./build/input/acs.RData")
     
     census <- dat %>%
-      select(STATEFP, STATE, contains("1990"), contains("2010")) %>%
-      mutate(pop_1990 = A00AA1990,
+      select(STATEFP, STATE, contains("2000"), contains("2010")) %>%
+      mutate(pop_2000 = A00AA2000,
              pop_2010 = A00AA2010,
              GEOID = STATEFP) %>%
       filter(!is.na(STATEFP)) %>%
@@ -44,4 +45,4 @@ acs <- get_acs(geography = "state",	#defines geography level of data
       left_join(., acs, by="GEOID") %>%
       select(-c(variable, estimate, moe, NAME))
     
-save(census, file="./census.RData")
+save(census, file="./build/input/census.RData")
