@@ -17,9 +17,9 @@ library(usethis)
 
 ## Getting the Data   
       
-    ufo <- read.csv("./build/input/ufo.csv")
+    ufo <- read.csv("./Build/Input/ufo.csv")
 
-    load("./build/input/census.RData")
+    load("./Build/Input/census.RData")
 
     st_as_sf(census)  
 
@@ -48,7 +48,7 @@ library(usethis)
                 values_from = sight, values_fn = sum)
 
 ## Use GEOID and Abbreviation Bridge to join UFO to Census Data
-  load("./build/input/bridge.RData")
+  load("./Build/Input/bridge.RData")
 
   core <- ufo.us %>%
     left_join(., bridge, by = c("state" = "Abbr"))%>%
