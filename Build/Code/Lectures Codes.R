@@ -12,7 +12,7 @@ library(tidyverse)
 library(sf)
 library(usethis)
 
-## Gretting the Data
+## Getting the Data
  #  usethis::use_course("https://github.com/jrgroves/Rticulate/archive/master.zip", destdir = "./")
 
 ## Getting the Data   
@@ -20,8 +20,7 @@ library(usethis)
     ufo <- read.csv("./Build/Input/ufo.csv")
 
     load("./Build/Input/census.RData")
-
-    st_as_sf(census)  
+      census <- st_as_sf(census)  
 
 ## Observing the Mess
     
@@ -31,7 +30,6 @@ library(usethis)
 
     
 ## Cleaning off the Dirt
-
     ufo.us <- ufo %>%
       select(datetime, state, country, latitude, longitude) %>%
       mutate(year = str_split_i(str_split_i(datetime, " ", 1), "/", 3)) %>%
@@ -76,7 +74,7 @@ library(usethis)
   ## Creation of 2000 Plot - some modifications
       ggplot(core2) +
         geom_sf(aes(fill = spp_2000)) +
-        scale_fill_gradient(low = "#e8f4f8", high = "#72bcd4", na.value="white" ) +
+        scale_fill_gradient(low = "lightblue", high = "darkblue", na.value="white" ) +
         labs(title = "UFO Sightings per 1 Million Persons in 2000",
              fill = "Sightings") +
         theme_bw()
@@ -84,7 +82,7 @@ library(usethis)
   ## Creation of 2000 Plot - more modifications and save
       g1 <- ggplot(core2) +
         geom_sf(aes(fill = spp_2000)) +
-        scale_fill_gradient(low = "#e8f4f8", high = "#72bcd4", na.value="white" ) +
+        scale_fill_gradient(low = "lightblue", high = "darkblue", na.value="white" ) +
         labs(title = "UFO Sightings per 1 Million Persons in 2000",
              fill = "Sightings") +
         theme_bw() +
@@ -98,7 +96,7 @@ library(usethis)
   ## Creation of 2010 Plot - more modifications and save
     g2 <- ggplot(core2) +
             geom_sf(aes(fill = spp_2010)) +
-            scale_fill_gradient(low = "#e8f4f8", high = "#72bcd4", na.value="white" ) +
+            scale_fill_gradient(low = "lightblue", high = "darkblue", na.value="white" ) +
             labs(title = "UFO Sightings per 1 Million Persons in 2010",
                  fill = "Sightings") +
             theme_bw() +
@@ -109,7 +107,7 @@ library(usethis)
                   #panel.border = element_blank(),
                   axis.ticks = element_blank())
 
-  ## Use cowplot to display both graphson same image
+  ## Use cowplot to display both graphs on same image
       install.packages("cowplot")
       library(cowplot)
       
@@ -118,7 +116,7 @@ library(usethis)
   ## Creation of Percentage Change Plot - more modifications and save
     g3 <- ggplot(core2) +
       geom_sf(aes(fill = delta_spp)) +
-      scale_fill_gradient(low = "#e8f4f8", high = "#72bcd4", na.value="white" ) +
+      scale_fill_gradient(low = "lightblue", high = "darkblue", na.value="white" ) +
       labs(title = "Percentage Change in UFO sightings per 1 Million Person between 1990 and 2010",
            fill = "Sightings") +
       theme_bw() +
