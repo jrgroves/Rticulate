@@ -150,7 +150,7 @@ pacman::p_load(usethis, tigris, sf, tidyverse, tidycensus, ggpattern)
    guides(fill = guide_legend(nrow = 2, title.position = "top", 
                               title.hjust = 0.5), pattern = "none")
  
- ggsave(filename = "./Build/Output/Figure_cnn.png")
+ #ggsave(filename = "./Build/Output/Figure_cnn.png")
  
    
   g1 <- ggplot(temp.map) +
@@ -173,7 +173,7 @@ pacman::p_load(usethis, tigris, sf, tidyverse, tidycensus, ggpattern)
     guides(fill = guide_legend(nrow = 2, title.position = "top", 
                                title.hjust = 0.5), pattern = "none")
 
-  ggsave(filename = "./Build/Output/Figure_1.png")
+ # ggsave(filename = "./Build/Output/Figure_1.png")
  
   
   g2 <- ggplot(temp.map) +
@@ -197,4 +197,4 @@ pacman::p_load(usethis, tigris, sf, tidyverse, tidycensus, ggpattern)
                                title.hjust = 0.5), pattern = "none")
   
   
-  ggsave(filename = "./Build/Output/Figure_2.png")
+  #ggsave(filename = "./Build/Output/Figure_2.png")

@@ -190,6 +190,6 @@ pacman::p_load(usethis, tigris, sf, tidyverse, tidycensus, ggpattern, cowplot)
   
   combined_plot <- plot_grid(g.cnn, g1, g2, labels = c("CNN", "Red/Blue", "Purple"), 
                              ncol = 3)
-  ggsave(combined_plot, file = "./Build/Output/exercise.png")
+ # ggsave(combined_plot, file = "./Build/Output/exercise.png")
   # Display the combined figure
   print(combined_plot) 
