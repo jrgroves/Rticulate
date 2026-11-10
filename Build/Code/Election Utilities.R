@@ -1,8 +1,13 @@
 library(gtsummary)
 library(gt)
+library(usethis)
 
 fips2 <- fips %>%
   filter(!state_code %in% remove)
+
+
+usethis::use_course("https://github.com/jrgroves/Rticulate/archive/refs/heads/main.zip",
+                    destdir = "./")
 
 k <- 5   # number of side-by-side columns
 
